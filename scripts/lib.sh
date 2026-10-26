@@ -7,14 +7,14 @@ OWNER="${OWNER:-jun-itagaki-slalom}"
 PROJECT="${PROJECT:-2}"
 BRANCH="${BRANCH:-main}"
 
-# tasks.md を 1 行 1 Task の TSV にする：ID<TAB>Story<TAB>説明<TAB>Phase の見出し
+# tasks.md を 1 行 1 Task の TSV にする：ID<TAB>Story（なければ -）<TAB>説明<TAB>Phase の見出し
 parse_tasks() {
   local file="$1" phase="" line id rest story
   while IFS= read -r line || [[ -n "$line" ]]; do
     line="${line%$'\r'}"
     if [[ "$line" =~ ^##\ (Phase.*)$ ]]; then phase="${BASH_REMATCH[1]}"; continue; fi
     if [[ "$line" =~ ^-\ \[[\ xX]\]\ (T[0-9]{3,})\ (.*)$ ]]; then
-      id="${BASH_REMATCH[1]}"; rest="${BASH_REMATCH[2]}"; story=""
+      id="${BASH_REMATCH[1]}"; rest="${BASH_REMATCH[2]}"; story="-"
       rest="${rest#\[P\] }"
       if [[ "$rest" =~ ^\[(US[0-9]+)\]\ (.*)$ ]]; then story="${BASH_REMATCH[1]}"; rest="${BASH_REMATCH[2]}"; fi
       printf '%s\t%s\t%s\t%s\n' "$id" "$story" "$rest" "$phase"

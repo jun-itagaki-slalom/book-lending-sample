@@ -47,7 +47,7 @@ done < <(parse_stories "$dir/tasks.md")
 md_ids=()
 while IFS=$'\t' read -r id story desc phase; do
   md_ids+=("$fk-$id")
-  parent="$fnum"; [[ -n "$story" ]] && parent="${story_num[$story]}"
+  parent="$fnum"; [[ "$story" != "-" ]] && parent="${story_num[$story]}"
   body="### やること
 $desc
 

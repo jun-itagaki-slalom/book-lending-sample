@@ -30,7 +30,7 @@ tasks_link="$(blob_url "$dir/tasks.md")"
 spec_link="$(blob_url "$dir/spec.md")"
 
 # ストーリーに属さない Task（Setup・Foundational・Polish）を機能の Issue の本文に挙げる
-common="$(parse_tasks "$dir/tasks.md" | awk -F'\t' '$2 == "" { printf "- %s %s（%s）\n", $1, $3, $4 }')"
+common="$(parse_tasks "$dir/tasks.md" | awk -F'\t' '$2 == "-" { printf "- %s %s（%s）\n", $1, $3, $4 }')"
 
 read -r fnum _ <<< "$(ensure "$fk" "$fk: $ftitle" \
   "機能の Issue。仕様：[spec.md]($spec_link)
